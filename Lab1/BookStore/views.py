@@ -67,7 +67,7 @@ def book_delete(request, **kwargs):
     book_object = _get_books(book_id)
     if book_object:
         My_Books.remove(book_object)
-    return redirect('books:books_list') 
+    return redirect('books:books_list')
 
 def book_update(request, **kwargs):
     book_id = kwargs.get('book_id')
@@ -75,4 +75,16 @@ def book_update(request, **kwargs):
     for book in My_Books:
         if book == book_object:
             book['name'] = f"Update {book_object['name']}"
+    return redirect('books:books_list')
+
+def book_add(request):
+    new_index = max(book['index'] for book in My_Books) + 1
+    new_book = {
+        'index': new_index,
+        'id': new_index + 1,
+        'name':"New Book",
+        'price': 750,
+        'description': "Book description",
+    }
+    My_Books.append(new_book)
     return redirect('books:books_list')
